@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold mb-2">Data Collection Details</h1>
+                <p class="text-gray-600">Source: {{ data.source.name }}</p>
+                <p class="text-gray-600">Collected At: {{ data.collected_at|date:"M j, Y H:i" }}</p>
+            </div>
+            <a href="{% url 'datasource-detail' data.source.id %}" class="inline-flex items-center text-indigo-600 hover:text-indigo-500">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Source
+            </a>
+        </div>
+    </div>
+
+    <!-- Validation Status -->
+    <div class="bg-white p-4 rounded-lg shadow mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Collection Status</h2>
+                <span class="px-3 py-1 rounded-full text-sm font-medium
+                    {% if data.validation_status == 'valid' %}bg-green-100 text-green-800
+                    {% elif data.validation_status == 'invalid' %}bg-red-100 text-red-800
+                    {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                    {{ data.get_validation_status_display }}
+                </span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'export-collected-data' data.id %}?format=json" 
+                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Export JSON
+                </a>
+                <a href="{% url 'export-collected-data' data.id %}?format=csv"
+                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Export CSV
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raw Data -->
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-lg font-semibold mb-4">Raw Data</h2>
+        <div class="overflow-x-auto">
+            <pre class="whitespace-pre-wrap bg-gray-50 p-4 rounded-lg text-sm">{{ data.raw_data|pprint }}</pre>
+        </div>
+    </div>
+</div>
+{% endblock %}

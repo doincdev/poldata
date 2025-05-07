@@ -1,0 +1,23 @@
+# Django and REST framework
+django>=4.2.0
+djangorestframework>=3.14.0
+
+# Data collection and processing
+tweepy>=4.12.0
+facebook-sdk>=3.1.0
+instagram-private-api>=1.6.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+pandas>=2.0.0
+
+# Async tasks and scheduling
+celery>=5.3.0
+redis>=4.5.0
+django-celery-beat>=2.5.0
+
+# Rate limiting and caching
+ratelimit>=2.2.1
+django-redis>=5.3.0
+
+# Utils
+python-dotenv>=1.0.0

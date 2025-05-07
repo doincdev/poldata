@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login - PolData{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col justify-center">
+    <!-- Background decoration -->
+    <div class="absolute inset-x-0 -z-10 transform-gpu overflow-hidden blur-3xl" aria-hidden="true">
+        <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
+    </div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md px-6">
+        <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">Log in to your account</h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+            Or&nbsp;
+            <a href="{% url 'register' %}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                create a new account
+            </a>
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-6">
+        <div class="bg-white/80 backdrop-blur-xl py-8 px-4 shadow-xl ring-1 ring-gray-900/5 sm:rounded-xl sm:px-10">
+            <div class="grid grid-cols-3 gap-3">
+                <div>
+                    <a href="#" class="group relative flex w-full items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <img class="h-5 w-5" src="{% static 'images/google.svg' %}" alt="Google">
+                    </a>
+                </div>
+                <div>
+                    <a href="#" class="group relative flex w-full items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <img class="h-5 w-5" src="{% static 'images/facebook.svg' %}" alt="Facebook">
+                    </a>
+                </div>
+                <div>
+                    <a href="#" class="group relative flex w-full items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white p-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <img class="h-5 w-5" src="{% static 'images/apple.svg' %}" alt="Apple">
+                    </a>
+                </div>
+            </div>
+
+            <div class="relative mt-6">
+                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div class="w-full border-t border-gray-200"></div>
+                </div>
+                <div class="relative flex justify-center text-sm font-medium leading-6">
+                    <span class="bg-white px-6 text-gray-600">Or continue with</span>
+                </div>
+            </div>
+
+            <form method="POST" class="mt-6 space-y-6">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="rounded-md bg-red-50 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-red-800">Invalid username or password</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="space-y-2">
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900">
+                        Username
+                    </label>
+                    <div class="mt-2">
+                        {{ form.username }}
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium leading-6 text-gray-900">
+                        Password
+                    </label>
+                    <div class="mt-2">
+                        {{ form.password }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember_me" name="remember_me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label for="remember_me" class="ml-3 block text-sm leading-6 text-gray-700">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div class="text-sm leading-6">
+                        <a href="{% url 'password_reset' %}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                            Forgot password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Background decoration -->
+    <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+        <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"></div>
+    </div>
+</div>
+{% endblock %}

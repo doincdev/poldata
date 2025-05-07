@@ -1,0 +1,271 @@
+<!-- Modal for adding/editing data sources -->
+<div id="sourceFormModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+        <div class="flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b">
+                <h3 class="text-xl font-semibold text-gray-900">Add New Data Source</h3>
+                <button type="button" class="text-gray-400 hover:text-gray-500" onclick="closeModal()">
+                    <span class="sr-only">Close</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="sourceForm" method="post" class="mt-4 space-y-6" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                    <div class="mt-2">
+                        <input type="text" id="name" name="name" required
+                               class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                               placeholder="Enter source name">
+                        <div class="text-red-500 text-xs mt-1 hidden" id="nameError"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="source_type" class="block text-sm font-medium leading-6 text-gray-900">Source Type</label>
+                    <div class="mt-2">
+                        <select id="source_type" name="source_type" required
+                                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="">Select a source type...</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="news">News Website</option>
+                            <option value="forum">Forum</option>
+                            <option value="offline">Offline File</option>
+                        </select>
+                        <div class="text-red-500 text-xs mt-1 hidden" id="sourceTypeError"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                    <div class="mt-2">
+                        <textarea id="description" name="description" rows="3"
+                                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                  placeholder="Enter source description"></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="collection_frequency" class="block text-sm font-medium leading-6 text-gray-900">Collection Frequency</label>
+                    <div class="mt-2">
+                        <select id="collection_frequency" name="collection_frequency" required
+                                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="manual">Manual</option>
+                            <option value="hourly">Hourly</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                        <div class="text-red-500 text-xs mt-1 hidden" id="frequencyError"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium leading-6 text-gray-900">Configuration</label>
+                    <div id="dynamicConfig" class="mt-2 space-y-4">
+                        <!-- Dynamic config fields will be inserted here -->
+                    </div>
+                    <div class="text-red-500 text-xs mt-1 hidden" id="configError"></div>
+                </div>
+
+                <div id="fileUploadSection" class="hidden">
+                    <label class="block text-sm font-medium leading-6 text-gray-900">Upload CSV File</label>
+                    <div class="mt-2">
+                        <input type="file" name="uploaded_file" accept=".csv"
+                               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                        <p class="mt-1 text-sm text-gray-500">Upload a CSV file (max. 10MB)</p>
+                        <div class="text-red-500 text-xs mt-1 hidden" id="fileError"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="is_active" name="is_active" checked
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <label for="is_active" class="ml-2 block text-sm text-gray-900">Active</label>
+                </div>
+
+                <div class="flex items-center justify-end space-x-4 pt-4 border-t">
+                    <button type="button" onclick="closeModal()"
+                            class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Save Data Source
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+const configTemplates = {
+    twitter: [
+        { name: 'api_key', label: 'API Key', type: 'text' },
+        { name: 'api_secret', label: 'API Secret', type: 'password' },
+        { name: 'bearer_token', label: 'Bearer Token', type: 'password' }
+    ],
+    facebook: [
+        { name: 'access_token', label: 'Access Token', type: 'password' }
+    ],
+    instagram: [
+        { name: 'username', label: 'Username', type: 'text' },
+        { name: 'password', label: 'Password', type: 'password' }
+    ],
+    news: [
+        { name: 'base_url', label: 'Base URL', type: 'url' },
+        { name: 'selectors', label: 'CSS Selectors', type: 'textarea' }
+    ],
+    forum: [
+        { name: 'forum_url', label: 'Forum URL', type: 'url' },
+        { name: 'auth_required', label: 'Authentication Required', type: 'checkbox' }
+    ],
+    offline: [
+        { name: 'file_path', label: 'File Path', type: 'text', readonly: true }
+    ]
+};
+
+function createConfigField(field) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'space-y-2';
+    
+    const label = document.createElement('label');
+    label.className = 'block text-sm font-medium leading-6 text-gray-900';
+    label.textContent = field.label;
+    
+    let input;
+    if (field.type === 'textarea') {
+        input = document.createElement('textarea');
+        input.className = 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6';
+        input.rows = 3;
+    } else if (field.type === 'checkbox') {
+        const checkboxWrapper = document.createElement('div');
+        checkboxWrapper.className = 'flex items-center';
+        
+        input = document.createElement('input');
+        input.type = field.type;
+        input.className = 'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600';
+        
+        checkboxWrapper.appendChild(input);
+        wrapper.appendChild(label);
+        wrapper.appendChild(checkboxWrapper);
+        return wrapper;
+    } else {
+        input = document.createElement('input');
+        input.type = field.type;
+        input.className = 'block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6';
+    }
+    
+    input.name = `config_${field.name}`;
+    input.id = `config_${field.name}`;
+    if (field.readonly) {
+        input.readOnly = true;
+    }
+    
+    if (field.type !== 'checkbox') {
+        wrapper.appendChild(label);
+    }
+    wrapper.appendChild(input);
+
+    // Add error div for each config field
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'text-red-500 text-xs mt-1 hidden';
+    errorDiv.id = `config_${field.name}Error`;
+    wrapper.appendChild(errorDiv);
+
+    return wrapper;
+}
+
+document.getElementById('source_type').addEventListener('change', function() {
+    const configDiv = document.getElementById('dynamicConfig');
+    const fileUploadSection = document.getElementById('fileUploadSection');
+    configDiv.innerHTML = '';
+    
+    const sourceType = this.value;
+    fileUploadSection.classList.toggle('hidden', sourceType !== 'offline');
+    
+    if (sourceType && configTemplates[sourceType]) {
+        configTemplates[sourceType].forEach(field => {
+            configDiv.appendChild(createConfigField(field));
+        });
+    }
+});
+
+function closeModal() {
+    document.getElementById('sourceFormModal').classList.add('hidden');
+    // Clear all error messages
+    document.querySelectorAll('[id$="Error"]').forEach(el => {
+        el.classList.add('hidden');
+        el.textContent = '';
+    });
+}
+
+document.getElementById('sourceForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Clear previous error messages
+    document.querySelectorAll('[id$="Error"]').forEach(el => {
+        el.classList.add('hidden');
+        el.textContent = '';
+    });
+    
+    const formData = new FormData(this);
+    const configData = {};
+    
+    for (let [key, value] of formData.entries()) {
+        if (key.startsWith('config_')) {
+            configData[key.replace('config_', '')] = value;
+        }
+    }
+    
+    // Add form data
+    const sourceData = new FormData();
+    sourceData.append('name', formData.get('name'));
+    sourceData.append('source_type', formData.get('source_type'));
+    sourceData.append('description', formData.get('description'));
+    sourceData.append('collection_frequency', formData.get('collection_frequency'));
+    sourceData.append('is_active', formData.get('is_active') === 'on');
+    sourceData.append('config', JSON.stringify(configData));
+    
+    // Add file if present
+    const fileInput = formData.get('uploaded_file');
+    if (fileInput && fileInput.size > 0) {
+        sourceData.append('uploaded_file', fileInput);
+    }
+    
+    fetch('/api/datasources/sources/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: sourceData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw data;
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Display field-specific errors
+        for (const [field, messages] of Object.entries(error)) {
+            const errorDiv = document.getElementById(`${field}Error`);
+            if (errorDiv) {
+                errorDiv.textContent = Array.isArray(messages) ? messages[0] : messages;
+                errorDiv.classList.remove('hidden');
+            }
+        }
+    });
+});
+</script>

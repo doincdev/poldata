@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-6">
+        <a href="{% url 'datasource-dashboard' %}" class="text-blue-500 hover:text-blue-700">&larr; Back to Dashboard</a>
+    </div>
+
+    <!-- Source Header -->
+    <div class="bg-white shadow rounded-lg mb-6">
+        <div class="px-6 py-5">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">{{ source.name }}</h1>
+                    {% if source.source_type == 'offline' and source.config.file_path %}
+                    <p class="text-sm text-gray-500 mt-1 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                        File: {{ source.config.file_path }}
+                    </p>
+                    {% elif source.source_type == 'api' and source.config.url %}
+                    <p class="text-sm text-gray-500 mt-1 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        URL: <a href="{{ source.config.url }}" target="_blank" class="text-indigo-600 hover:text-indigo-900">{{ source.config.url }}</a>
+                    </p>
+                    {% endif %}
+                    <p class="text-gray-500">{{ source.get_source_type_display }}</p>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="testConnection({{ source.id }})" 
+                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Test Connection
+                    </button>
+                    <button onclick="collectData({{ source.id }})"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Collect Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Source Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Status & Analytics -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Status & Analytics</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-gray-500">Validation Status</label>
+                    <span class="px-2 ml-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        {% if source.validation_status == 'valid' %}bg-green-100 text-green-800
+                        {% elif source.validation_status == 'invalid' %}bg-red-100 text-red-800
+                        {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                        {{ source.get_validation_status_display }}
+                    </span>
+                </div>
+                <div>
+                    <label class="text-gray-500">Credibility Score</label>
+                    <div class="flex items-center mt-1">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ source.credibility_score }}%"></div>
+                        </div>
+                        <span class="ml-2">{{ source.credibility_score }}%</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-gray-500">Last Connection Test</label>
+                    <p>{{ source.last_connection_test|default:"Never" }}</p>
+                </div>
+                {% if source.last_connection_error %}
+                <div>
+                    <label class="text-gray-500">Last Error</label>
+                    <p class="text-red-600">{{ source.last_connection_error }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Configuration -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Configuration</h2>
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                {% for key, value in source.config.items %}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">{{ key|title }}</label>
+                    <input type="{% if 'key' in key or 'password' in key %}password{% else %}text{% endif %}" 
+                           name="config_{{ key }}" 
+                           value="{{ value }}"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+                {% endfor %}
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Update Configuration
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% if preview_data %}
+    <!-- Preview Data -->
+    <div class="bg-white shadow rounded-lg mt-6">
+        <div class="px-6 py-5 border-b border-gray-200">
+            <h2 class="text-xl font-semibold">Preview Data</h2>
+            <p class="text-sm text-gray-500 mt-1">Showing first 10 records of {{ preview_data.total_records }} total records</p>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        {% for column in preview_data.columns %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ column }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for row in preview_data.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ cell }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if preview_error %}
+    <div class="bg-red-50 border-l-4 border-red-400 p-4 mt-6">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">Error Loading Preview</h3>
+                <p class="mt-2 text-sm text-red-700">{{ preview_error }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Collected Data -->
+    <div class="bg-white shadow rounded-lg mt-6">
+        <div class="px-6 py-5 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Recent Data Collections</h2>
+                <div class="flex space-x-2">
+                    <a href="{% url 'datasource-export' source.id %}?format=csv" 
+                       class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                        </svg>
+                        Export CSV
+                    </a>
+                    <a href="{% url 'datasource-export' source.id %}?format=json"
+                       class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                        </svg>
+                        Export JSON
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Collected At</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Processed</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for data in collected_data %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">{{ data.collected_at }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {% if data.validation_status == 'valid' %}bg-green-100 text-green-800
+                                {% elif data.validation_status == 'invalid' %}bg-red-100 text-red-800
+                                {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ data.get_validation_status_display }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            {% if data.processed %}
+                            <span class="text-green-600">✓</span>
+                            {% else %}
+                            <span class="text-gray-400">-</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <button onclick="viewData({{ data.id }})" 
+                                    class="text-blue-600 hover:text-blue-900">
+                                View Data
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Data View Modal -->
+<div id="dataModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-4/5 shadow-lg rounded-md bg-white">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Collected Data Details</h3>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        <div id="modalContent" class="overflow-x-auto">
+            <!-- Data will be inserted here -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function testConnection(sourceId) {
+    fetch(`/api/datasources/sources/${sourceId}/test_connection/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(`Connection test ${data.validation_status}`);
+        location.reload();
+    });
+}
+
+function collectData(sourceId) {
+    fetch(`/api/datasources/sources/${sourceId}/collect_data/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Data collection started');
+    });
+}
+
+function viewData(dataId) {
+    fetch(`/api/datasources/collected/${dataId}/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('modalContent').innerHTML = 
+                `<pre class="whitespace-pre-wrap">${JSON.stringify(data.raw_data, null, 2)}</pre>`;
+            document.getElementById('dataModal').classList.remove('hidden');
+        });
+}
+
+function closeModal() {
+    document.getElementById('dataModal').classList.add('hidden');
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

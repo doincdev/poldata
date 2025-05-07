@@ -1,0 +1,80 @@
+{% extends "datasources/base.html" %}
+
+{% block datasources_title %}
+    {% if form.instance.pk %}Edit CSV File: {{ form.instance.name }}{% else %}Upload New CSV File{% endif %}
+{% endblock %}
+
+{% block datasources_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-6">
+        <a href="{% url 'datasource-dashboard' %}" class="text-indigo-600 hover:text-indigo-900 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="bg-white shadow rounded-lg">
+        <div class="px-6 py-5 border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-gray-900">
+                {% if form.instance.pk %}Edit CSV File: {{ form.instance.name }}{% else %}Upload New CSV File{% endif %}
+            </h1>
+        </div>
+
+        <div class="p-6">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700">Name</label>
+                    <div class="mt-1">
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                        <div class="text-red-500 text-xs mt-1">{{ form.name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                    <div class="mt-1">
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-red-500 text-xs mt-1">{{ form.description.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if not form.instance.pk %}
+                <div>
+                    <label for="{{ form.uploaded_file.id_for_label }}" class="block text-sm font-medium text-gray-700">Upload CSV File</label>
+                    <div class="mt-1">
+                        {{ form.uploaded_file }}
+                        {% if form.uploaded_file.errors %}
+                        <div class="text-red-500 text-xs mt-1">{{ form.uploaded_file.errors.0 }}</div>
+                        {% endif %}
+                        <p class="mt-1 text-sm text-gray-500">Maximum file size: 10MB</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {{ form.config }}
+
+                <div class="pt-5 border-t border-gray-200">
+                    <div class="flex justify-end space-x-3">
+                        <a href="{% url 'datasource-dashboard' %}" 
+                           class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Cancel
+                        </a>
+                        <button type="submit"
+                                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            {% if form.instance.pk %}Update{% else %}Upload{% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

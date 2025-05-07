@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{% block datasources_title %}CSV Data Sources{% endblock %}{% endblock %}
+
+{% block content %}
+    <!-- Data Sources Navigation -->
+    <div class="mb-8 border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+            <a href="{% url 'datasource-dashboard' %}" 
+               class="{% if request.resolver_match.url_name == 'datasource-dashboard' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+                All Files
+            </a>
+            <a href="{% url 'collection-history' %}"
+               class="{% if request.resolver_match.url_name == 'collection-history' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+                Collection History
+            </a>
+            <a href="{% url 'datasource-create' %}" 
+               class="{% if request.resolver_match.url_name == 'datasource-create' %}border-indigo-500 text-indigo-600{% else %}border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700{% endif %} whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+                Upload New File
+            </a>
+        </nav>
+    </div>
+
+    {% block datasources_content %}{% endblock %}
+
+    {% block datasources_modals %}{% endblock %}
+{% endblock %}
+
+{% block extra_js %}
+    {% block datasources_extra_js %}{% endblock %}
+{% endblock %}
+
+{% block extra_css %}
+    {% block datasources_extra_css %}{% endblock %}
+{% endblock %}

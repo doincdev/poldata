@@ -1,0 +1,63 @@
+{% extends "datasources/base.html" %}
+
+{% block datasources_title %}Data Source Settings{% endblock %}
+
+{% block datasources_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white shadow rounded-lg">
+        <div class="px-6 py-5 border-b border-gray-200">
+            <h1 class="text-2xl font-bold">Data Source Settings</h1>
+        </div>
+        <div class="p-6">
+            <!-- Global Settings -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4">Global Settings</h2>
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Default Collection Frequency</label>
+                        <select name="default_frequency" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="manual">Manual</option>
+                            <option value="hourly">Hourly</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Maximum File Size (MB)</label>
+                        <input type="number" name="max_file_size" value="10" min="1" max="100"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Enable Data Validation</label>
+                        <div class="mt-1">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="enable_validation" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" checked>
+                                <span class="ml-2">Validate data before collection</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="pt-5">
+                        <button type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Statistics -->
+            <div>
+                <h2 class="text-xl font-semibold mb-4">System Statistics</h2>
+                <dl class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <div class="rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200">
+                        <div class="px-4 py-5 sm:p-6">
+                            <dt class="text-sm font-medium text-gray-500 truncate">Total Data Sources</dt>
+                            <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ total_sources }}</dd>
+                        </div>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

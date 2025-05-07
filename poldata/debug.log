@@ -1,0 +1,442 @@
+INFO 2025-05-02 09:43:00,665 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 09:46:08,860 autoreload Watching for file changes with StatReloader
+ERROR 2025-05-02 09:47:01,303 log Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/var/data/python/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/data/python/lib/python3.12/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "/var/data/python/lib/python3.12/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/data/python/lib/python3.12/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/data/python/lib/python3.12/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/data/python/lib/python3.12/site-packages/django/template/loader.py", line 47, in select_template
+    raise TemplateDoesNotExist(", ".join(template_name_list), chain=chain)
+django.template.exceptions.TemplateDoesNotExist: users/login.html
+INFO 2025-05-02 09:50:58,847 autoreload Watching for file changes with StatReloader
+ERROR 2025-05-02 09:52:34,346 log Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/decorators/debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/edit.py", line 151, in post
+    return self.form_valid(form)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/views.py", line 108, in form_valid
+    auth_login(self.request, form.get_user())
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/__init__.py", line 197, in login
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/models.py", line 24, in update_last_login
+    user.save(update_fields=["last_login"])
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/base_user.py", line 65, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/db/models/base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/db/models/base.py", line 1023, in save_base
+    post_save.send(
+    ~~~~~~~~~~~~~~^
+        sender=origin,
+        ^^^^^^^^^^^^^^
+    ...<4 lines>...
+        using=using,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/putra/projex/poldata/poldata/users/signals.py", line 13, in save_profile
+    instance.profile.save()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/putra/projex/poldata/poldata/users/models.py", line 16, in save
+    img = Image.open(self.image.path)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/PIL/Image.py", line 3505, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/putra/projex/poldata/poldata/media/default.jpg'
+INFO 2025-05-02 10:02:16,945 autoreload /home/putra/projex/poldata/poldata/users/models.py changed, reloading.
+INFO 2025-05-02 10:02:17,637 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:03:38,275 autoreload /home/putra/projex/poldata/poldata/users/models.py changed, reloading.
+INFO 2025-05-02 10:03:38,792 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-02 10:04:13,942 log Forbidden (CSRF token from POST incorrect.): /login/
+ERROR 2025-05-02 10:04:42,033 log Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/decorators/debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/edit.py", line 151, in post
+    return self.form_valid(form)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/views.py", line 108, in form_valid
+    auth_login(self.request, form.get_user())
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/__init__.py", line 197, in login
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/models.py", line 24, in update_last_login
+    user.save(update_fields=["last_login"])
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/base_user.py", line 65, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/db/models/base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/db/models/base.py", line 1023, in save_base
+    post_save.send(
+    ~~~~~~~~~~~~~~^
+        sender=origin,
+        ^^^^^^^^^^^^^^
+    ...<4 lines>...
+        using=using,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/putra/projex/poldata/poldata/users/signals.py", line 13, in save_profile
+    instance.profile.save()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/putra/projex/poldata/poldata/users/models.py", line 21, in save
+    img = Image.open(self.image.path)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/PIL/Image.py", line 3505, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/putra/projex/poldata/poldata/media/default.jpg'
+INFO 2025-05-02 10:07:14,482 autoreload /home/putra/projex/poldata/poldata/users/models.py changed, reloading.
+INFO 2025-05-02 10:07:14,985 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-02 10:10:40,562 log Forbidden (CSRF token from POST incorrect.): /login/
+WARNING 2025-05-02 10:10:40,587 log Not Found: /favicon.ico
+ERROR 2025-05-02 10:10:57,487 log Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/decorators/debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/views/generic/edit.py", line 151, in post
+    return self.form_valid(form)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/views.py", line 108, in form_valid
+    auth_login(self.request, form.get_user())
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/__init__.py", line 197, in login
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/models.py", line 24, in update_last_login
+    user.save(update_fields=["last_login"])
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/contrib/auth/base_user.py", line 65, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/db/models/base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/db/models/base.py", line 1023, in save_base
+    post_save.send(
+    ~~~~~~~~~~~~~~^
+        sender=origin,
+        ^^^^^^^^^^^^^^
+    ...<4 lines>...
+        using=using,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/putra/projex/poldata/poldata/users/signals.py", line 13, in save_profile
+    instance.profile.save()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/putra/projex/poldata/poldata/users/models.py", line 21, in save
+    img = Image.open(self.image.path)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/PIL/Image.py", line 3505, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/putra/projex/poldata/poldata/media/default.jpg'
+WARNING 2025-05-02 10:11:41,112 log Forbidden (CSRF token from POST incorrect.): /login/
+INFO 2025-05-02 10:13:12,355 autoreload /home/putra/projex/poldata/poldata/users/models.py changed, reloading.
+INFO 2025-05-02 10:13:12,819 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:13:24,033 autoreload /home/putra/projex/poldata/poldata/users/models.py changed, reloading.
+INFO 2025-05-02 10:13:24,477 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-02 10:18:30,792 base Method Not Allowed (GET): /logout/
+WARNING 2025-05-02 10:18:30,793 log Method Not Allowed: /logout/
+INFO 2025-05-02 10:19:58,085 autoreload /home/putra/projex/poldata/poldata/users/urls.py changed, reloading.
+INFO 2025-05-02 10:19:58,701 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:20:16,003 autoreload /home/putra/projex/poldata/poldata/users/urls.py changed, reloading.
+INFO 2025-05-02 10:20:16,549 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-02 10:20:33,764 base Method Not Allowed (GET): /logout/
+WARNING 2025-05-02 10:20:33,764 log Method Not Allowed: /logout/
+WARNING 2025-05-02 10:20:40,111 base Method Not Allowed (GET): /logout/
+WARNING 2025-05-02 10:20:40,111 log Method Not Allowed: /logout/
+INFO 2025-05-02 10:21:45,326 autoreload /home/putra/projex/poldata/poldata/users/urls.py changed, reloading.
+INFO 2025-05-02 10:21:45,876 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:23:04,545 autoreload /home/putra/projex/poldata/poldata/users/urls.py changed, reloading.
+INFO 2025-05-02 10:23:05,149 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:38:01,541 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 10:38:02,177 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:38:20,492 autoreload /home/putra/projex/poldata/poldata/users/views.py changed, reloading.
+INFO 2025-05-02 10:38:21,049 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:50:34,796 autoreload /home/putra/projex/poldata/poldata/users/views.py changed, reloading.
+INFO 2025-05-02 10:50:35,782 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:52:59,785 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 10:53:00,358 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 10:58:42,747 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 10:58:43,332 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:00:05,863 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:17:33,629 autoreload /home/putra/projex/poldata/poldata/poldata/settings.py changed, reloading.
+INFO 2025-05-02 11:17:34,223 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:20:36,211 autoreload /home/putra/projex/poldata/poldata/poldata/settings.py changed, reloading.
+INFO 2025-05-02 11:20:36,710 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:20:52,540 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:21:55,940 autoreload /home/putra/projex/poldata/poldata/poldata/settings.py changed, reloading.
+INFO 2025-05-02 11:21:56,560 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-02 11:27:50,327 log Not Found: /home/
+INFO 2025-05-02 11:32:35,774 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 11:32:36,239 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:34:43,290 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 11:34:43,777 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:35:04,402 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:55:12,890 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 11:55:13,381 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 11:56:42,056 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 11:56:42,629 autoreload Watching for file changes with StatReloader
+ERROR 2025-05-02 11:58:26,946 log Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 489, in parse
+    raise self.error(token, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'attr'
+ERROR 2025-05-02 12:00:47,491 log Internal Server Error: /login/
+Traceback (most recent call last):
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+        contents,
+    ...<2 lines>...
+        self.engine,
+    )
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 489, in parse
+    raise self.error(token, e)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 487, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 609, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 705, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/putra/projex/poldata/venv/lib64/python3.13/site-packages/django/template/base.py", line 615, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'attr'
+INFO 2025-05-02 12:02:31,901 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 12:02:32,490 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 12:06:29,049 autoreload /home/putra/projex/poldata/poldata/users/forms.py changed, reloading.
+INFO 2025-05-02 12:06:29,602 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 12:07:31,994 autoreload /home/putra/projex/poldata/poldata/users/views.py changed, reloading.
+INFO 2025-05-02 12:07:32,633 autoreload Watching for file changes with StatReloader
+INFO 2025-05-02 12:08:49,393 autoreload /home/putra/projex/poldata/poldata/users/views.py changed, reloading.
+INFO 2025-05-02 12:08:49,958 autoreload Watching for file changes with StatReloader
+INFO 2025-05-03 19:13:52,165 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-03 19:13:58,920 log Not Found: /favicon.ico
+INFO 2025-05-03 22:43:20,775 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-03 22:43:24,255 log Not Found: /favicon.ico
